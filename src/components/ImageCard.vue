@@ -6,7 +6,7 @@
       <p v-else class="image-title">No Title Found</p>
       <p class="image-owner">By {{ image.ownername }}</p>
       <section class="image-date-view-wrapper">
-        <p class="image-date">{{ image.datetaken }}</p>
+        <p class="image-date">{{ image.datetaken | moment }}</p>
         <p class="image-views">Views: {{ image.views }}</p>
       </section>
     </div>
@@ -14,22 +14,24 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'ImageCard',
-  props: ['image']
+  props: ['image'],
+  filters: {
+    moment(date) {
+      return moment(date).format('MMMM Do, YYYY')
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 .image-card {
   width: calc(33% - 1rem);
-
   margin: 0.5rem;
-
   border-radius: 5px;
-
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-
   background: white;
 
   @media only screen and (max-width: 799px) {
@@ -38,7 +40,6 @@ export default {
 
   @media only screen and (max-width: 549px) {
     width: 100%;
-
     margin: 0.5rem 0;
   }
 }
